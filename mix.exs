@@ -1,19 +1,19 @@
-defmodule FileSystem.Mixfile do
+defmodule SecretsWatcherFileSystem.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/falood/file_system"
+  @source_url "https://github.com/ahamez/file_system"
   @version "0.2.10"
 
   def project do
     [
-      app: :file_system,
+      app: :secrets_watcher_file_system,
       version: @version,
       elixir: "~> 1.3",
       deps: deps(),
       description: description(),
       package: package(),
-      compilers: [:file_system | Mix.compilers()],
-      aliases: ["compile.file_system": &file_system/1],
+      compilers: [:secrets_watcher_file_system | Mix.compilers()],
+      aliases: ["compile.secrets_watcher_file_system": &file_system/1],
       docs: [
         extras: ["README.md"],
         main: "readme",
@@ -38,7 +38,7 @@ defmodule FileSystem.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, ">= 0.0.0", only: :docs}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 

@@ -1,6 +1,6 @@
 require Logger
 
-defmodule FileSystem.Backends.FSWindows do
+defmodule SecretsWatcherFileSystem.Backends.FSWindows do
   @moduledoc """
   File system backend for Windows.
 
@@ -14,17 +14,17 @@ defmodule FileSystem.Backends.FSWindows do
 
   ## Executable File Path
 
-  Useful when running `:file_system` with escript.
+  Useful when running `:secrets_watcher_file_system` with escript.
 
   The default listener executable file is `priv/inotifywait.exe` within the
-  folder of `:file_system` application.
+  folder of `:secrets_watcher_file_system` application.
 
   Two ways to customize the executable file path:
 
     * Module config with `config.exs`:
 
       ```elixir
-      config :file_system, :fs_windows,
+      config :secrets_watcher_file_system, :fs_windows,
         executable_file: "YOUR_EXECUTABLE_FILE_PATH"`
       ```
 
@@ -36,7 +36,7 @@ defmodule FileSystem.Backends.FSWindows do
   """
 
   use GenServer
-  @behaviour FileSystem.Backend
+  @behaviour SecretsWatcherFileSystem.Backend
   @sep_char <<1>>
 
   @default_exec_file "inotifywait.exe"
@@ -64,7 +64,7 @@ defmodule FileSystem.Backends.FSWindows do
   end
 
   defp executable_path(:config) do
-    Application.get_env(:file_system, :fs_windows)[:executable_file]
+    Application.get_env(:secrets_watcher_file_system, :fs_windows)[:executable_file]
   end
 
   defp executable_path(:system_env) do
@@ -76,9 +76,9 @@ defmodule FileSystem.Backends.FSWindows do
   end
 
   defp executable_path(:priv) do
-    case :code.priv_dir(:file_system) do
+    case :code.priv_dir(:secrets_watcher_file_system) do
       {:error, _} ->
-        Logger.error "`priv` dir for `:file_system` application is not avalible in current runtime, appoint executable file with `config.exs` or `FILESYSTEM_FSWINDOWS_EXECUTABLE_FILE` env."
+        Logger.error "`priv` dir for `:secrets_watcher_file_system` application is not avalible in current runtime, appoint executable file with `config.exs` or `FILESYSTEM_FSWINDOWS_EXECUTABLE_FILE` env."
         nil
       dir when is_list(dir) ->
         Path.join(dir, @default_exec_file)

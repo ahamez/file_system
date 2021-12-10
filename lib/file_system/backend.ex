@@ -1,6 +1,6 @@
 require Logger
 
-defmodule FileSystem.Backend do
+defmodule SecretsWatcherFileSystem.Backend do
   @moduledoc """
   A behaviour module for implementing different file system backend.
   """
@@ -42,10 +42,10 @@ defmodule FileSystem.Backend do
       system             -> {:unsupported_system, system}
     end |> backend_module
   end
-  defp backend_module(:fs_mac),     do: {:ok, FileSystem.Backends.FSMac}
-  defp backend_module(:fs_inotify), do: {:ok, FileSystem.Backends.FSInotify}
-  defp backend_module(:fs_windows), do: {:ok, FileSystem.Backends.FSWindows}
-  defp backend_module(:fs_poll),    do: {:ok, FileSystem.Backends.FSPoll}
+  defp backend_module(:fs_mac),     do: {:ok, SecretsWatcherFileSystem.Backends.FSMac}
+  defp backend_module(:fs_inotify), do: {:ok, SecretsWatcherFileSystem.Backends.FSInotify}
+  defp backend_module(:fs_windows), do: {:ok, SecretsWatcherFileSystem.Backends.FSWindows}
+  defp backend_module(:fs_poll),    do: {:ok, SecretsWatcherFileSystem.Backends.FSPoll}
   defp backend_module({:unsupported_system, system}) do
     Logger.error "I'm so sorry but `file_system` does NOT support your current system #{inspect system} for now."
     {:error, :unsupported_system}

@@ -1,6 +1,6 @@
 require Logger
 
-defmodule FileSystem.Backends.FSPoll do
+defmodule SecretsWatcherFileSystem.Backends.FSPoll do
   @moduledoc """
   File system backend for any OS.
 
@@ -17,7 +17,7 @@ defmodule FileSystem.Backends.FSPoll do
   """
 
   use GenServer
-  @behaviour FileSystem.Backend
+  @behaviour SecretsWatcherFileSystem.Backend
 
   def bootstrap, do: :ok
 

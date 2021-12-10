@@ -1,6 +1,6 @@
-defmodule FileSystem.Backends.FSInotifyTest do
+defmodule SecretsWatcherFileSystem.Backends.FSInotifyTest do
   use ExUnit.Case, async: true
-  import FileSystem.Backends.FSInotify
+  import SecretsWatcherFileSystem.Backends.FSInotify
 
   describe "options parse test" do
     test "without :dirs" do

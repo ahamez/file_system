@@ -1,4 +1,4 @@
-defmodule FileSystem do
+defmodule SecretsWatcherFileSystem do
   @moduledoc """
   A `GenServer` process to watch file system changes.
 
@@ -28,22 +28,22 @@ defmodule FileSystem do
   Start monitoring `/tmp/fs` directory using the default `:fs_mac` backend of
   the current process:
 
-      iex> {:ok, pid} = FileSystem.start_link(dirs: ["/tmp/fs"])
-      iex> FileSystem.subscribe(pid)
+      iex> {:ok, pid} = SecretsWatcherFileSystem.start_link(dirs: ["/tmp/fs"])
+      iex> SecretsWatcherFileSystem.subscribe(pid)
 
   Get instant (`latench: 0`) notifications on file changes:
 
-      iex> FileSystem.start_link(dirs: ["/path/to/some/files"], latency: 0)
+      iex> SecretsWatcherFileSystem.start_link(dirs: ["/path/to/some/files"], latency: 0)
 
   Minitor a directory by a process name:
 
-      iex> FileSystem.start_link(backend: :fs_mac, dirs: ["/tmp/fs"], name: :worker)
-      iex> FileSystem.subscribe(:worker)
+      iex> SecretsWatcherFileSystem.start_link(backend: :fs_mac, dirs: ["/tmp/fs"], name: :worker)
+      iex> SecretsWatcherFileSystem.subscribe(:worker)
 
   """
   @spec start_link(Keyword.t) :: GenServer.on_start()
   def start_link(options) do
-    FileSystem.Worker.start_link(options)
+    SecretsWatcherFileSystem.Worker.start_link(options)
   end
 
   @doc """

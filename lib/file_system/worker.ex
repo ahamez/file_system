@@ -1,6 +1,6 @@
-defmodule FileSystem.Worker do
+defmodule SecretsWatcherFileSystem.Worker do
   @moduledoc """
-  FileSystem Worker Process with the backend GenServer, receive events from Port Process
+  SecretsWatcherFileSystem Worker Process with the backend GenServer, receive events from Port Process
   and forward it to subscribers.
   """
 
@@ -15,7 +15,7 @@ defmodule FileSystem.Worker do
   @doc false
   def init(args) do
     {backend, rest} = Keyword.pop(args, :backend)
-    with {:ok, backend} <- FileSystem.Backend.backend(backend),
+    with {:ok, backend} <- SecretsWatcherFileSystem.Backend.backend(backend),
          {:ok, backend_pid} <- backend.start_link([{:worker_pid, self()} | rest])
     do
       {:ok, %{backend_pid: backend_pid, subscribers: %{}}}

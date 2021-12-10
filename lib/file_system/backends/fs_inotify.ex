@@ -1,6 +1,6 @@
 require Logger
 
-defmodule FileSystem.Backends.FSInotify do
+defmodule SecretsWatcherFileSystem.Backends.FSInotify do
   @moduledoc """
   File system backend for GNU/Linux, FreeBSD, and OpenBSD.
 
@@ -12,7 +12,7 @@ defmodule FileSystem.Backends.FSInotify do
 
   ## Executable File Path
 
-  Useful when running `:file_system` with escript.
+  Useful when running `:secrets_watcher_file_system` with escript.
 
   The default listener executable file is found through finding `inotifywait` from
   `$PATH`.
@@ -22,7 +22,7 @@ defmodule FileSystem.Backends.FSInotify do
     * Module config with `config.exs`:
 
       ```elixir
-      config :file_system, :fs_inotify,
+      config :secrets_watcher_file_system, :fs_inotify,
         executable_file: "YOUR_EXECUTABLE_FILE_PATH"`
       ```
 
@@ -34,7 +34,7 @@ defmodule FileSystem.Backends.FSInotify do
   """
 
   use GenServer
-  @behaviour FileSystem.Backend
+  @behaviour SecretsWatcherFileSystem.Backend
   @sep_char <<1>>
 
   def bootstrap do
@@ -60,7 +60,7 @@ defmodule FileSystem.Backends.FSInotify do
   end
 
   defp executable_path(:config) do
-    Application.get_env(:file_system, :fs_inotify)[:executable_file]
+    Application.get_env(:secrets_watcher_file_system, :fs_inotify)[:executable_file]
   end
 
   defp executable_path(:system_env) do

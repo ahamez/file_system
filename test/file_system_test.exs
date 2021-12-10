@@ -1,17 +1,17 @@
-defmodule FileSystemTest do
+defmodule SecretsWatcherFileSystemTest do
   use ExUnit.Case, async: true
 
   test "file event api" do
     tmp_dir = System.cmd("mktemp", ["-d"]) |> elem(0) |> String.trim
-    {:ok, pid} = FileSystem.start_link(dirs: [tmp_dir])
-    FileSystem.subscribe(pid)
+    {:ok, pid} = SecretsWatcherFileSystem.start_link(dirs: [tmp_dir])
+    SecretsWatcherFileSystem.subscribe(pid)
 
     :timer.sleep(200)
     File.touch("#{tmp_dir}/a")
     assert_receive {:file_event, ^pid, {_path, _events}}, 5000
 
     new_subscriber = spawn(fn ->
-      FileSystem.subscribe(pid)
+      SecretsWatcherFileSystem.subscribe(pid)
       :timer.sleep(10000)
     end)
     assert Process.alive?(new_subscriber)

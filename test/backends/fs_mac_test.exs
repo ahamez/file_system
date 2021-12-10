@@ -1,6 +1,6 @@
-defmodule FileSystem.Backends.FSMacTest do
+defmodule SecretsWatcherFileSystem.Backends.FSMacTest do
   use ExUnit.Case, async: true
-  import FileSystem.Backends.FSMac
+  import SecretsWatcherFileSystem.Backends.FSMac
 
   describe "options parse test" do
     test "without :dirs" do

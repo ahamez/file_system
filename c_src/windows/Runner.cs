@@ -41,15 +41,15 @@ namespace De.Thekid.INotify
 			Console.Error.WriteLine("*** {0}", e.GetException());
 		}
 
-		private void OnWatcherNotification(object sender, FileSystemEventArgs e)
+		private void OnWatcherNotification(object sender, SecretsWatcherFileSystemEventArgs e)
 		{
-		    FileSystemWatcher w = (FileSystemWatcher)sender;
+		    SecretsWatcherFileSystemWatcher w = (SecretsWatcherFileSystemWatcher)sender;
 		    HandleNotification(w, e, () => Output(Console.Out, _args.Format, w, Changes[e.ChangeType], e.Name));
 		}
 		
 		private void OnRenameNotification(object sender, RenamedEventArgs e)
 		{
-		    FileSystemWatcher w = (FileSystemWatcher)sender;
+		    SecretsWatcherFileSystemWatcher w = (SecretsWatcherFileSystemWatcher)sender;
 		    HandleNotification(w, e, () =>
 		    {
 		        Output(Console.Out, _args.Format, w, Change.MOVED_FROM, e.OldName);
@@ -57,9 +57,9 @@ namespace De.Thekid.INotify
 		    });
 		}
 		
-		private void HandleNotification(FileSystemWatcher sender, FileSystemEventArgs e, Action outputAction)
+		private void HandleNotification(SecretsWatcherFileSystemWatcher sender, SecretsWatcherFileSystemEventArgs e, Action outputAction)
 		{
-		    FileSystemWatcher w = (FileSystemWatcher)sender;
+		    SecretsWatcherFileSystemWatcher w = (SecretsWatcherFileSystemWatcher)sender;
 		    // Lock so we don't output more than one change if we were only supposed to watch for one.
 		    // And to serialize access to the console
 		    lock (_notificationReactionLock)
@@ -87,7 +87,7 @@ namespace De.Thekid.INotify
 		}
 
 		/// Output method
-		protected void Output(TextWriter writer, string[] tokens, FileSystemWatcher source, Change type, string name)
+		protected void Output(TextWriter writer, string[] tokens, SecretsWatcherFileSystemWatcher source, Change type, string name)
 		{
 			foreach (var token in tokens)
 			{
@@ -119,7 +119,7 @@ namespace De.Thekid.INotify
 
 		public void Processor(object data) {
 			string path = (string)data;
-			using (var w = new FileSystemWatcher {
+			using (var w = new SecretsWatcherFileSystemWatcher {
 				Path = path,
 				IncludeSubdirectories = _args.Recursive,
 				Filter = "*.*"
@@ -131,17 +131,17 @@ namespace De.Thekid.INotify
 				if (_args.Events.Contains("create"))
 				{
 					changes |= WatcherChangeTypes.Created;
-					w.Created += new FileSystemEventHandler(OnWatcherNotification);
+					w.Created += new SecretsWatcherFileSystemEventHandler(OnWatcherNotification);
 				}
 				if (_args.Events.Contains("modify"))
 				{
 					changes |= WatcherChangeTypes.Changed;
-					w.Changed += new FileSystemEventHandler(OnWatcherNotification);
+					w.Changed += new SecretsWatcherFileSystemEventHandler(OnWatcherNotification);
 				}
 				if (_args.Events.Contains("delete"))
 				{
 					changes |= WatcherChangeTypes.Deleted;
-					w.Deleted += new FileSystemEventHandler(OnWatcherNotification);
+					w.Deleted += new SecretsWatcherFileSystemEventHandler(OnWatcherNotification);
 				}
 				if (_args.Events.Contains("move"))
 				{

@@ -1,6 +1,6 @@
-defmodule FileSystem.Backends.FSPollTest do
+defmodule SecretsWatcherFileSystem.Backends.FSPollTest do
   use ExUnit.Case, async: true
-  import FileSystem.Backends.FSPoll
+  import SecretsWatcherFileSystem.Backends.FSPoll
 
   @mtime1 {{2017, 11, 13}, {10, 14, 00}}
   @mtime2 {{2017, 11, 13}, {10, 15, 00}}

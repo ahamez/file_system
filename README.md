@@ -1,4 +1,4 @@
-# FileSystem
+# SecretsWatcherFileSystem
 
 [![Module Version](https://img.shields.io/hexpm/v/file_system.svg)](https://hex.pm/packages/file_system)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/file_system/)
@@ -23,7 +23,7 @@ open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10
 
 ## Usage
 
-Put `:file_system` in the `deps` and `application` part of your `mix.exs`:
+Put `:secrets_watcher_file_system` in the `deps` and `application` part of your `mix.exs`:
 
 ``` elixir
 defmodule Excellent.Mixfile do
@@ -35,7 +35,7 @@ defmodule Excellent.Mixfile do
 
   defp deps do
     [
-      { :file_system, "~> 0.2", only: :test },
+      { :secrets_watcher_file_system, "~> 0.2", only: :test },
     ]
   end
   ...
@@ -47,15 +47,15 @@ end
 You can spawn a worker and subscribe to events from it:
 
 ```elixir
-{:ok, pid} = FileSystem.start_link(dirs: ["/path/to/some/files"])
-FileSystem.subscribe(pid)
+{:ok, pid} = SecretsWatcherFileSystem.start_link(dirs: ["/path/to/some/files"])
+SecretsWatcherFileSystem.subscribe(pid)
 ```
 
 or
 
 ```elixir
-{:ok, pid} = FileSystem.start_link(dirs: ["/path/to/some/files"], name: :my_monitor_name)
-FileSystem.subscribe(:my_monitor_name)
+{:ok, pid} = SecretsWatcherFileSystem.start_link(dirs: ["/path/to/some/files"], name: :my_monitor_name)
+SecretsWatcherFileSystem.subscribe(:my_monitor_name)
 ```
 
 The `pid` you subscribed from will now receive messages like:
@@ -80,8 +80,8 @@ defmodule Watcher do
   end
 
   def init(args) do
-    {:ok, watcher_pid} = FileSystem.start_link(args)
-    FileSystem.subscribe(watcher_pid)
+    {:ok, watcher_pid} = SecretsWatcherFileSystem.start_link(args)
+    SecretsWatcherFileSystem.subscribe(watcher_pid)
     {:ok, %{watcher_pid: watcher_pid}}
   end
 
@@ -108,7 +108,7 @@ documentation for more details.
 Here is an example to get instant notifications on file changes for MacOS:
 
 ```elixir
-FileSystem.start_link(dirs: ["/path/to/some/files"], latency: 0, watch_root: true)
+SecretsWatcherFileSystem.start_link(dirs: ["/path/to/some/files"], latency: 0, watch_root: true)
 ```
 
 ## License
